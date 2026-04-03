@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o"
+  "CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o.d"
   "CMakeFiles/app.dir/src/main.cpp.o"
   "CMakeFiles/app.dir/src/main.cpp.o.d"
   "app"

@@ -148,7 +148,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=EventSystem
+CMAKE_PROJECT_NAME:STATIC=FS-EventHub
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION:STATIC=1.0.0
@@ -250,6 +250,15 @@ EventSystem_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 EventSystem_SOURCE_DIR:STATIC=/workspaces/project
+
+//Value Computed by CMake
+FS-EventHub_BINARY_DIR:STATIC=/workspaces/project/build
+
+//Value Computed by CMake
+FS-EventHub_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+FS-EventHub_SOURCE_DIR:STATIC=/workspaces/project
 
 //The directory containing a CMake configuration file for GTest.
 GTest_DIR:PATH=/usr/local/lib/cmake/GTest

@@ -25,6 +25,23 @@ RUN cd /usr/src/googletest && \
     cmake --build build && \
     cmake --install build --prefix /usr/local
 
+# Устанавливаем ВСЁ, что нужно
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    curl \
+    gdb \
+    valgrind \
+    libgtest-dev \
+    libgmock-dev \
+    libhiredis-dev \
+    libmicrohttpd-dev \
+    libspdlog-dev \
+    redis-tools \
+    && rm -rf /var/lib/apt/lists/*
+
 # Создаём обычного пользователя (чтобы не работать от root — это хорошая практика)
 RUN useradd -m -s /bin/bash devuser && chown -R devuser /home/devuser
 USER devuser
