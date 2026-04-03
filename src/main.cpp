@@ -3,6 +3,7 @@
 #include "event_dispatcher/EventDispatcher.h"
 #include "redis/RedisClient.h"
 #include "logger/EventLogger.h"
+#include "system_watcher/FileSystemWatcher.h"
 
 RedisClient redisClient("host.docker.internal", 6379);
 EventLogger eventLogger("logs/events.log");
@@ -41,15 +42,18 @@ int main() {
     dispatcher.registerHandler("file_created", LogHandler);
     dispatcher.registerHandler("file_created", EchoHandler);
     dispatcher.registerHandler("file_created", RedisPublisherHandler);
+    dispatcher.registerHandler("file_modified", LogHandler);
+    dispatcher.registerHandler("file_deleted", LogHandler);
 
     std::cout << "Система готова. Логи → logs/events.log\n\n";
 
     // Тестовые события
-    for (int i = 1; i <= 3; ++i) {
-        Event e{"file_created", "watched/document_" + std::to_string(i) + ".pdf"};
-        dispatcher.dispatch(e);
-        std::this_thread::sleep_for(std::chrono::milliseconds(400));
-    }
+    FileSystemWatcher watcher("watched", dispatcher);
+
+    while (true) {
+    watcher.scan();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+}
 
     std::cout << "\nНажмите Enter для завершения...\n";
     std::cin.get();

@@ -68,6 +68,7 @@ all: CMakeFiles/handlers.dir/all
 all: CMakeFiles/redis_client.dir/all
 all: CMakeFiles/event_logger.dir/all
 all: CMakeFiles/event_queue.dir/all
+all: CMakeFiles/system_watcher.dir/all
 all: CMakeFiles/app.dir/all
 all: CMakeFiles/tests.dir/all
 .PHONY : all
@@ -82,6 +83,7 @@ clean: CMakeFiles/handlers.dir/clean
 clean: CMakeFiles/redis_client.dir/clean
 clean: CMakeFiles/event_logger.dir/clean
 clean: CMakeFiles/event_queue.dir/clean
+clean: CMakeFiles/system_watcher.dir/clean
 clean: CMakeFiles/app.dir/clean
 clean: CMakeFiles/tests.dir/clean
 .PHONY : clean
@@ -217,6 +219,32 @@ CMakeFiles/event_queue.dir/clean:
 .PHONY : CMakeFiles/event_queue.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/system_watcher.dir
+
+# All Build rule for target.
+CMakeFiles/system_watcher.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=15,16 "Built target system_watcher"
+.PHONY : CMakeFiles/system_watcher.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/system_watcher.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/project/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/system_watcher.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/project/build/CMakeFiles 0
+.PHONY : CMakeFiles/system_watcher.dir/rule
+
+# Convenience name for target.
+system_watcher: CMakeFiles/system_watcher.dir/rule
+.PHONY : system_watcher
+
+# clean rule for target.
+CMakeFiles/system_watcher.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/clean
+.PHONY : CMakeFiles/system_watcher.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/app.dir
 
 # All Build rule for target.
@@ -225,6 +253,7 @@ CMakeFiles/app.dir/all: CMakeFiles/handlers.dir/all
 CMakeFiles/app.dir/all: CMakeFiles/redis_client.dir/all
 CMakeFiles/app.dir/all: CMakeFiles/event_logger.dir/all
 CMakeFiles/app.dir/all: CMakeFiles/event_queue.dir/all
+CMakeFiles/app.dir/all: CMakeFiles/system_watcher.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=1,2,3 "Built target app"
@@ -232,7 +261,7 @@ CMakeFiles/app.dir/all: CMakeFiles/event_queue.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/app.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/project/build/CMakeFiles 14
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/project/build/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/app.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/project/build/CMakeFiles 0
 .PHONY : CMakeFiles/app.dir/rule
@@ -255,7 +284,7 @@ CMakeFiles/tests.dir/all: CMakeFiles/handlers.dir/all
 CMakeFiles/tests.dir/all: CMakeFiles/event_logger.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=15,16,17 "Built target tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=17,18,19 "Built target tests"
 .PHONY : CMakeFiles/tests.dir/all
 
 # Build rule for subdir invocation for target.

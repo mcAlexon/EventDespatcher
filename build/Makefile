@@ -192,6 +192,19 @@ event_queue/fast:
 .PHONY : event_queue/fast
 
 #=============================================================================
+# Target rules for targets named system_watcher
+
+# Build rule for target.
+system_watcher: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 system_watcher
+.PHONY : system_watcher
+
+# fast build rule for target.
+system_watcher/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/build
+.PHONY : system_watcher/fast
+
+#=============================================================================
 # Target rules for targets named app
 
 # Build rule for target.
@@ -312,6 +325,30 @@ src/EventQueue.s: src/EventQueue.cpp.s
 src/EventQueue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/src/EventQueue.cpp.s
 .PHONY : src/EventQueue.cpp.s
+
+src/FileSystemWatcher.o: src/FileSystemWatcher.cpp.o
+.PHONY : src/FileSystemWatcher.o
+
+# target to build an object file
+src/FileSystemWatcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.o
+.PHONY : src/FileSystemWatcher.cpp.o
+
+src/FileSystemWatcher.i: src/FileSystemWatcher.cpp.i
+.PHONY : src/FileSystemWatcher.i
+
+# target to preprocess a source file
+src/FileSystemWatcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.i
+.PHONY : src/FileSystemWatcher.cpp.i
+
+src/FileSystemWatcher.s: src/FileSystemWatcher.cpp.s
+.PHONY : src/FileSystemWatcher.s
+
+# target to generate assembly for a file
+src/FileSystemWatcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/system_watcher.dir/build.make CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.s
+.PHONY : src/FileSystemWatcher.cpp.s
 
 src/LogHandler.o: src/LogHandler.cpp.o
 .PHONY : src/LogHandler.o
@@ -472,6 +509,7 @@ help:
 	@echo "... event_queue"
 	@echo "... handlers"
 	@echo "... redis_client"
+	@echo "... system_watcher"
 	@echo "... tests"
 	@echo "... src/EchoHandler.o"
 	@echo "... src/EchoHandler.i"
@@ -485,6 +523,9 @@ help:
 	@echo "... src/EventQueue.o"
 	@echo "... src/EventQueue.i"
 	@echo "... src/EventQueue.s"
+	@echo "... src/FileSystemWatcher.o"
+	@echo "... src/FileSystemWatcher.i"
+	@echo "... src/FileSystemWatcher.s"
 	@echo "... src/LogHandler.o"
 	@echo "... src/LogHandler.i"
 	@echo "... src/LogHandler.s"

@@ -3,6 +3,7 @@
 /workspaces/project/build/CMakeFiles/redis_client.dir
 /workspaces/project/build/CMakeFiles/event_logger.dir
 /workspaces/project/build/CMakeFiles/event_queue.dir
+/workspaces/project/build/CMakeFiles/system_watcher.dir
 /workspaces/project/build/CMakeFiles/app.dir
 /workspaces/project/build/CMakeFiles/tests.dir
 /workspaces/project/build/CMakeFiles/test.dir

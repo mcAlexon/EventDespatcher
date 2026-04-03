@@ -55,3 +55,52 @@
 2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_3.pdf | LogHandler
 2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_3.pdf | EchoHandler
 2026-04-03 10:25:53 | RECEIVED | file_created | watched/document_3.pdf | Из Redis
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-03 10:58:15
+==========================================================================================
+
+2026-04-03 10:58:15 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-03 10:58:15 | PROCESSED | file_created | watched/1.txt | LogHandler
+2026-04-03 10:58:15 | PROCESSED | file_created | watched/1.txt | EchoHandler
+2026-04-03 10:58:15 | RECEIVED | file_created | watched/1.txt | Из Redis
+2026-04-03 10:58:15 | PROCESSED | file_created | watched/gfdfgg.txt | LogHandler
+2026-04-03 10:58:15 | PROCESSED | file_created | watched/gfdfgg.txt | EchoHandler
+2026-04-03 10:58:15 | RECEIVED | file_created | watched/gfdfgg.txt | Из Redis
+2026-04-03 10:58:27 | PROCESSED | file_created | watched/test.txt | LogHandler
+2026-04-03 10:58:27 | PROCESSED | file_created | watched/test.txt | EchoHandler
+2026-04-03 10:58:27 | RECEIVED | file_created | watched/test.txt | Из Redis
+2026-04-03 10:58:56 | PROCESSED | file_created | watched/Текстовый документ.txt | LogHandler
+2026-04-03 10:58:56 | PROCESSED | file_created | watched/Текстовый документ.txt | EchoHandler
+2026-04-03 10:58:56 | RECEIVED | file_created | watched/Текстовый документ.txt | Из Redis
+2026-04-03 10:59:00 | PROCESSED | file_created | watched/Penis.txt | LogHandler
+2026-04-03 10:59:00 | PROCESSED | file_created | watched/Penis.txt | EchoHandler
+2026-04-03 10:59:00 | RECEIVED | file_created | watched/Penis.txt | Из Redis
+2026-04-03 10:59:00 | PROCESSED | file_deleted | watched/Текстовый документ.txt | LogHandler
+2026-04-03 10:59:27 | PROCESSED | file_deleted | watched/test.txt | LogHandler
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-03 11:16:48
+==========================================================================================
+
+2026-04-03 11:16:48 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/1.txt | LogHandler
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/1.txt | EchoHandler
+2026-04-03 11:16:48 | RECEIVED | file_created | watched/1.txt | Из Redis
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/gfdfgg.txt | LogHandler
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/gfdfgg.txt | EchoHandler
+2026-04-03 11:16:48 | RECEIVED | file_created | watched/gfdfgg.txt | Из Redis
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/Penis.txt | LogHandler
+2026-04-03 11:16:48 | PROCESSED | file_created | watched/Penis.txt | EchoHandler
+2026-04-03 11:16:48 | RECEIVED | file_created | watched/Penis.txt | Из Redis
+2026-04-03 11:17:08 | PROCESSED | file_created | watched/Текстовый документ.txt | LogHandler
+2026-04-03 11:17:08 | PROCESSED | file_created | watched/Текстовый документ.txt | EchoHandler
+2026-04-03 11:17:08 | RECEIVED | file_created | watched/Текстовый документ.txt | Из Redis
+2026-04-03 11:17:10 | PROCESSED | file_created | watched/еуые.txt | LogHandler
+2026-04-03 11:17:10 | PROCESSED | file_created | watched/еуые.txt | EchoHandler
+2026-04-03 11:17:10 | RECEIVED | file_created | watched/еуые.txt | Из Redis
+2026-04-03 11:17:10 | PROCESSED | file_deleted | watched/Текстовый документ.txt | LogHandler
+2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/еуые.txt | LogHandler
+2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/Penis.txt | LogHandler
+2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/gfdfgg.txt | LogHandler
+2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/1.txt | LogHandler

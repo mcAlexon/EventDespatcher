@@ -33,7 +33,10 @@ add_library(event_logger
 add_library(event_queue
     src/EventQueue.cpp
 )
-
+# ====================== FileSystemWatcher ======================
+add_library(system_watcher
+    src/FileSystemWatcher.cpp
+)
 # ====================== Обновлённое приложение ======================
 add_executable(app
     src/main.cpp
@@ -45,8 +48,9 @@ target_link_libraries(app PRIVATE
     handlers
     redis_client
     event_logger
-    event_queue      # ← добавили
+    event_queue      
     pthread
+    system_watcher
 )
 
 # ====================== Тесты ======================

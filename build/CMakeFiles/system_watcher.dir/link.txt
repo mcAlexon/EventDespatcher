@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsystem_watcher.a CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.o
+/usr/bin/ranlib libsystem_watcher.a
