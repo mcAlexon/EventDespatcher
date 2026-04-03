@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhandlers.a CMakeFiles/handlers.dir/src/LogHandler.cpp.o CMakeFiles/handlers.dir/src/EchoHandler.cpp.o
+/usr/bin/ranlib libhandlers.a

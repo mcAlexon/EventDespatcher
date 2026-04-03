@@ -1,0 +1,19 @@
+{
+  "name": "C++ Event System (ЛР2 и дальше)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "postCreateCommand": "mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ]
+    }
+  },
+  "remoteUser": "devuser"
+}

@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o -o tests  libevent_dispatcher.a libhandlers.a -lpthread /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a 
