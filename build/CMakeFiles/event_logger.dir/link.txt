@@ -1,0 +1,2 @@
+/usr/bin/ar qc libevent_logger.a CMakeFiles/event_logger.dir/src/EventLogger.cpp.o
+/usr/bin/ranlib libevent_logger.a

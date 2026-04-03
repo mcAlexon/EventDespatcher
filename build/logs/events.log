@@ -1,0 +1,57 @@
+2026-04-03 10:06:55 | RECEIVED | SYSTEM | Logger initialized | Логгер запущен
+2026-04-03 10:06:55 | PROCESSED | file_created | /watched/document_1.pdf | Обработано LogHandler
+2026-04-03 10:06:55 | PROCESSED | file_created | /watched/document_1.pdf | Обработано EchoHandler
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_2.pdf | Обработано LogHandler
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_2.pdf | Обработано EchoHandler
+2026-04-03 10:06:56 | RECEIVED | file_created | /watched/document_2.pdf | Получено из Redis
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_3.pdf | Обработано LogHandler
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_3.pdf | Обработано EchoHandler
+2026-04-03 10:06:56 | RECEIVED | file_created | /watched/document_3.pdf | Получено из Redis
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_4.pdf | Обработано LogHandler
+2026-04-03 10:06:56 | PROCESSED | file_created | /watched/document_4.pdf | Обработано EchoHandler
+2026-04-03 10:06:56 | RECEIVED | file_created | /watched/document_4.pdf | Получено из Redis
+2026-04-03 10:06:57 | PROCESSED | file_created | /watched/document_5.pdf | Обработано LogHandler
+2026-04-03 10:06:57 | PROCESSED | file_created | /watched/document_5.pdf | Обработано EchoHandler
+2026-04-03 10:06:57 | RECEIVED | file_created | /watched/document_5.pdf | Получено из Redis
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-03 10:13:55
+==========================================================================================
+
+2026-04-03 10:13:55 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-03 10:13:55 | PROCESSED | file_created | watched/document_1.pdf | LogHandler
+2026-04-03 10:13:55 | PROCESSED | file_created | watched/document_1.pdf | EchoHandler
+2026-04-03 10:13:56 | PROCESSED | file_created | watched/document_2.pdf | LogHandler
+2026-04-03 10:13:56 | PROCESSED | file_created | watched/document_2.pdf | EchoHandler
+2026-04-03 10:13:56 | RECEIVED | file_created | watched/document_2.pdf | Из Redis
+2026-04-03 10:13:56 | PROCESSED | file_created | watched/document_3.pdf | LogHandler
+2026-04-03 10:13:56 | PROCESSED | file_created | watched/document_3.pdf | EchoHandler
+2026-04-03 10:13:56 | RECEIVED | file_created | watched/document_3.pdf | Из Redis
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-03 10:24:50
+==========================================================================================
+
+2026-04-03 10:24:50 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-03 10:24:50 | PROCESSED | file_created | watched/document_1.pdf | LogHandler
+2026-04-03 10:24:50 | PROCESSED | file_created | watched/document_1.pdf | EchoHandler
+2026-04-03 10:24:50 | PROCESSED | file_created | watched/document_2.pdf | LogHandler
+2026-04-03 10:24:50 | PROCESSED | file_created | watched/document_2.pdf | EchoHandler
+2026-04-03 10:24:50 | RECEIVED | file_created | watched/document_2.pdf | Из Redis
+2026-04-03 10:24:51 | PROCESSED | file_created | watched/document_3.pdf | LogHandler
+2026-04-03 10:24:51 | PROCESSED | file_created | watched/document_3.pdf | EchoHandler
+2026-04-03 10:24:51 | RECEIVED | file_created | watched/document_3.pdf | Из Redis
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-03 10:25:53
+==========================================================================================
+
+2026-04-03 10:25:53 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_1.pdf | LogHandler
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_1.pdf | EchoHandler
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_2.pdf | LogHandler
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_2.pdf | EchoHandler
+2026-04-03 10:25:53 | RECEIVED | file_created | watched/document_2.pdf | Из Redis
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_3.pdf | LogHandler
+2026-04-03 10:25:53 | PROCESSED | file_created | watched/document_3.pdf | EchoHandler
+2026-04-03 10:25:53 | RECEIVED | file_created | watched/document_3.pdf | Из Redis

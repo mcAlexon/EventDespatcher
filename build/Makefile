@@ -166,6 +166,32 @@ redis_client/fast:
 .PHONY : redis_client/fast
 
 #=============================================================================
+# Target rules for targets named event_logger
+
+# Build rule for target.
+event_logger: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 event_logger
+.PHONY : event_logger
+
+# fast build rule for target.
+event_logger/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_logger.dir/build.make CMakeFiles/event_logger.dir/build
+.PHONY : event_logger/fast
+
+#=============================================================================
+# Target rules for targets named event_queue
+
+# Build rule for target.
+event_queue: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 event_queue
+.PHONY : event_queue
+
+# fast build rule for target.
+event_queue/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/build
+.PHONY : event_queue/fast
+
+#=============================================================================
 # Target rules for targets named app
 
 # Build rule for target.
@@ -238,6 +264,54 @@ src/EventDispatcher.s: src/EventDispatcher.cpp.s
 src/EventDispatcher.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_dispatcher.dir/build.make CMakeFiles/event_dispatcher.dir/src/EventDispatcher.cpp.s
 .PHONY : src/EventDispatcher.cpp.s
+
+src/EventLogger.o: src/EventLogger.cpp.o
+.PHONY : src/EventLogger.o
+
+# target to build an object file
+src/EventLogger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_logger.dir/build.make CMakeFiles/event_logger.dir/src/EventLogger.cpp.o
+.PHONY : src/EventLogger.cpp.o
+
+src/EventLogger.i: src/EventLogger.cpp.i
+.PHONY : src/EventLogger.i
+
+# target to preprocess a source file
+src/EventLogger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_logger.dir/build.make CMakeFiles/event_logger.dir/src/EventLogger.cpp.i
+.PHONY : src/EventLogger.cpp.i
+
+src/EventLogger.s: src/EventLogger.cpp.s
+.PHONY : src/EventLogger.s
+
+# target to generate assembly for a file
+src/EventLogger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_logger.dir/build.make CMakeFiles/event_logger.dir/src/EventLogger.cpp.s
+.PHONY : src/EventLogger.cpp.s
+
+src/EventQueue.o: src/EventQueue.cpp.o
+.PHONY : src/EventQueue.o
+
+# target to build an object file
+src/EventQueue.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/src/EventQueue.cpp.o
+.PHONY : src/EventQueue.cpp.o
+
+src/EventQueue.i: src/EventQueue.cpp.i
+.PHONY : src/EventQueue.i
+
+# target to preprocess a source file
+src/EventQueue.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/src/EventQueue.cpp.i
+.PHONY : src/EventQueue.cpp.i
+
+src/EventQueue.s: src/EventQueue.cpp.s
+.PHONY : src/EventQueue.s
+
+# target to generate assembly for a file
+src/EventQueue.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/src/EventQueue.cpp.s
+.PHONY : src/EventQueue.cpp.s
 
 src/LogHandler.o: src/LogHandler.cpp.o
 .PHONY : src/LogHandler.o
@@ -359,6 +433,30 @@ tests/EventDispatcherTest.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.s
 .PHONY : tests/EventDispatcherTest.cpp.s
 
+tests/EventLoadTest.o: tests/EventLoadTest.cpp.o
+.PHONY : tests/EventLoadTest.o
+
+# target to build an object file
+tests/EventLoadTest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o
+.PHONY : tests/EventLoadTest.cpp.o
+
+tests/EventLoadTest.i: tests/EventLoadTest.cpp.i
+.PHONY : tests/EventLoadTest.i
+
+# target to preprocess a source file
+tests/EventLoadTest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.i
+.PHONY : tests/EventLoadTest.cpp.i
+
+tests/EventLoadTest.s: tests/EventLoadTest.cpp.s
+.PHONY : tests/EventLoadTest.s
+
+# target to generate assembly for a file
+tests/EventLoadTest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.s
+.PHONY : tests/EventLoadTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -370,6 +468,8 @@ help:
 	@echo "... test"
 	@echo "... app"
 	@echo "... event_dispatcher"
+	@echo "... event_logger"
+	@echo "... event_queue"
 	@echo "... handlers"
 	@echo "... redis_client"
 	@echo "... tests"
@@ -379,6 +479,12 @@ help:
 	@echo "... src/EventDispatcher.o"
 	@echo "... src/EventDispatcher.i"
 	@echo "... src/EventDispatcher.s"
+	@echo "... src/EventLogger.o"
+	@echo "... src/EventLogger.i"
+	@echo "... src/EventLogger.s"
+	@echo "... src/EventQueue.o"
+	@echo "... src/EventQueue.i"
+	@echo "... src/EventQueue.s"
 	@echo "... src/LogHandler.o"
 	@echo "... src/LogHandler.i"
 	@echo "... src/LogHandler.s"
@@ -394,6 +500,9 @@ help:
 	@echo "... tests/EventDispatcherTest.o"
 	@echo "... tests/EventDispatcherTest.i"
 	@echo "... tests/EventDispatcherTest.s"
+	@echo "... tests/EventLoadTest.o"
+	@echo "... tests/EventLoadTest.i"
+	@echo "... tests/EventLoadTest.s"
 .PHONY : help
 
 

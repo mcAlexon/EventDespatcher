@@ -1,3 +1,5 @@
 add_test([=[EventDispatcherTest.RegistersAndDispatches]=]  /workspaces/project/build/tests [==[--gtest_filter=EventDispatcherTest.RegistersAndDispatches]==] --gtest_also_run_disabled_tests)
 set_tests_properties([=[EventDispatcherTest.RegistersAndDispatches]=]  PROPERTIES WORKING_DIRECTORY /workspaces/project/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set(  tests_TESTS EventDispatcherTest.RegistersAndDispatches)
+add_test([=[EventSystemLoadTest.HandlesThousandEvents]=]  /workspaces/project/build/tests [==[--gtest_filter=EventSystemLoadTest.HandlesThousandEvents]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[EventSystemLoadTest.HandlesThousandEvents]=]  PROPERTIES WORKING_DIRECTORY /workspaces/project/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  tests_TESTS EventDispatcherTest.RegistersAndDispatches EventSystemLoadTest.HandlesThousandEvents)

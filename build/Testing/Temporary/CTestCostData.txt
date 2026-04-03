@@ -1,0 +1,3 @@
+EventDispatcherTest.RegistersAndDispatches 2 0.00835156
+EventSystemLoadTest.HandlesThousandEvents 2 0.0594905
+---

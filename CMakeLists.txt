@@ -24,7 +24,17 @@ add_library(redis_client
 
 target_link_libraries(redis_client PRIVATE hiredis)
 
-# ====================== Основное приложение ======================
+# ====================== Logger ======================
+add_library(event_logger
+    src/EventLogger.cpp
+)
+
+# ====================== Queue ======================
+add_library(event_queue
+    src/EventQueue.cpp
+)
+
+# ====================== Обновлённое приложение ======================
 add_executable(app
     src/main.cpp
     src/RedisPublisherHandler.cpp
@@ -34,6 +44,8 @@ target_link_libraries(app PRIVATE
     event_dispatcher
     handlers
     redis_client
+    event_logger
+    event_queue      # ← добавили
     pthread
 )
 
@@ -43,11 +55,13 @@ find_package(GTest REQUIRED)
 
 add_executable(tests
     tests/EventDispatcherTest.cpp
+    tests/EventLoadTest.cpp        
 )
 
 target_link_libraries(tests PRIVATE
     event_dispatcher
     handlers
+    event_logger
     GTest::GTest
     GTest::Main
     pthread
