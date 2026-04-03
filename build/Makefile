@@ -153,17 +153,17 @@ handlers/fast:
 .PHONY : handlers/fast
 
 #=============================================================================
-# Target rules for targets named tests
+# Target rules for targets named redis_client
 
 # Build rule for target.
-tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
-.PHONY : tests
+redis_client: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 redis_client
+.PHONY : redis_client
 
 # fast build rule for target.
-tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
-.PHONY : tests/fast
+redis_client/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/redis_client.dir/build.make CMakeFiles/redis_client.dir/build
+.PHONY : redis_client/fast
 
 #=============================================================================
 # Target rules for targets named app
@@ -177,6 +177,19 @@ app: cmake_check_build_system
 app/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/build
 .PHONY : app/fast
+
+#=============================================================================
+# Target rules for targets named tests
+
+# Build rule for target.
+tests: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests
+.PHONY : tests
+
+# fast build rule for target.
+tests/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+.PHONY : tests/fast
 
 src/EchoHandler.o: src/EchoHandler.cpp.o
 .PHONY : src/EchoHandler.o
@@ -250,6 +263,54 @@ src/LogHandler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/handlers.dir/build.make CMakeFiles/handlers.dir/src/LogHandler.cpp.s
 .PHONY : src/LogHandler.cpp.s
 
+src/RedisClient.o: src/RedisClient.cpp.o
+.PHONY : src/RedisClient.o
+
+# target to build an object file
+src/RedisClient.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/redis_client.dir/build.make CMakeFiles/redis_client.dir/src/RedisClient.cpp.o
+.PHONY : src/RedisClient.cpp.o
+
+src/RedisClient.i: src/RedisClient.cpp.i
+.PHONY : src/RedisClient.i
+
+# target to preprocess a source file
+src/RedisClient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/redis_client.dir/build.make CMakeFiles/redis_client.dir/src/RedisClient.cpp.i
+.PHONY : src/RedisClient.cpp.i
+
+src/RedisClient.s: src/RedisClient.cpp.s
+.PHONY : src/RedisClient.s
+
+# target to generate assembly for a file
+src/RedisClient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/redis_client.dir/build.make CMakeFiles/redis_client.dir/src/RedisClient.cpp.s
+.PHONY : src/RedisClient.cpp.s
+
+src/RedisPublisherHandler.o: src/RedisPublisherHandler.cpp.o
+.PHONY : src/RedisPublisherHandler.o
+
+# target to build an object file
+src/RedisPublisherHandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o
+.PHONY : src/RedisPublisherHandler.cpp.o
+
+src/RedisPublisherHandler.i: src/RedisPublisherHandler.cpp.i
+.PHONY : src/RedisPublisherHandler.i
+
+# target to preprocess a source file
+src/RedisPublisherHandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.i
+.PHONY : src/RedisPublisherHandler.cpp.i
+
+src/RedisPublisherHandler.s: src/RedisPublisherHandler.cpp.s
+.PHONY : src/RedisPublisherHandler.s
+
+# target to generate assembly for a file
+src/RedisPublisherHandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.s
+.PHONY : src/RedisPublisherHandler.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -310,6 +371,7 @@ help:
 	@echo "... app"
 	@echo "... event_dispatcher"
 	@echo "... handlers"
+	@echo "... redis_client"
 	@echo "... tests"
 	@echo "... src/EchoHandler.o"
 	@echo "... src/EchoHandler.i"
@@ -320,6 +382,12 @@ help:
 	@echo "... src/LogHandler.o"
 	@echo "... src/LogHandler.i"
 	@echo "... src/LogHandler.s"
+	@echo "... src/RedisClient.o"
+	@echo "... src/RedisClient.i"
+	@echo "... src/RedisClient.s"
+	@echo "... src/RedisPublisherHandler.o"
+	@echo "... src/RedisPublisherHandler.i"
+	@echo "... src/RedisPublisherHandler.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

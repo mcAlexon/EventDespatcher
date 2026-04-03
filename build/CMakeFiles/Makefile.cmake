@@ -58,6 +58,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/event_dispatcher.dir/DependInfo.cmake"
   "CMakeFiles/handlers.dir/DependInfo.cmake"
-  "CMakeFiles/tests.dir/DependInfo.cmake"
+  "CMakeFiles/redis_client.dir/DependInfo.cmake"
   "CMakeFiles/app.dir/DependInfo.cmake"
+  "CMakeFiles/tests.dir/DependInfo.cmake"
   )

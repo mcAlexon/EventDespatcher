@@ -1,7 +1,8 @@
 /workspaces/project/build/CMakeFiles/event_dispatcher.dir
 /workspaces/project/build/CMakeFiles/handlers.dir
-/workspaces/project/build/CMakeFiles/tests.dir
+/workspaces/project/build/CMakeFiles/redis_client.dir
 /workspaces/project/build/CMakeFiles/app.dir
+/workspaces/project/build/CMakeFiles/tests.dir
 /workspaces/project/build/CMakeFiles/test.dir
 /workspaces/project/build/CMakeFiles/edit_cache.dir
 /workspaces/project/build/CMakeFiles/rebuild_cache.dir

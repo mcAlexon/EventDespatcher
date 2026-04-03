@@ -1,29 +1,54 @@
-// src/main.cpp
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "event_dispatcher/EventDispatcher.h"
+#include "redis/RedisClient.h"
+
+// Глобальный Redis клиент
+RedisClient redisClient("host.docker.internal", 6379);
 
 void LogHandler(const Event& e) {
-    std::cout << "[LOG] " << e.type << ": " << e.payload << "\n";
+    std::cout << "[LOG] " << e.type << ": " << e.payload << std::endl;
 }
 
 void EchoHandler(const Event& e) {
-    std::cout << "[ECHO] Получено → " << e.payload << "\n";
+    std::cout << "[ECHO] → " << e.payload << std::endl;
 }
 
+void RedisPublisherHandler(const Event& e);   // объявление
+
 int main() {
-    EventDispatcher disp;
+    EventDispatcher dispatcher;
+
+    std::cout << "=== FS-EventHub v0.3 (ЛР3) ===\n\n";
+
+    // Подключаемся к Redis
+    if (!redisClient.connect()) {
+        std::cerr << "Не удалось подключиться к Redis!\n";
+        return 1;
+    }
+
+    // Запускаем подписчика на Redis (в отдельном потоке)
+    redisClient.startSubscriber("fs_events", [&](const Event& e) {
+        std::cout << "[RedisListener] Получено из Redis → " 
+                  << e.type << " | " << e.payload << std::endl;
+    });
 
     // Регистрируем обработчики
-    disp.registerHandler("user_login", LogHandler);
-    disp.registerHandler("user_login", EchoHandler);
-    disp.registerHandler("message", LogHandler);
+    dispatcher.registerHandler("file_created", LogHandler);
+    dispatcher.registerHandler("file_created", EchoHandler);
+    dispatcher.registerHandler("file_created", RedisPublisherHandler);
 
-    std::cout << "=== Тестируем диспетчер ===\n\n";
+    std::cout << "Система запущена. Ожидаем событий...\n";
+    std::cout << "Нажмите Enter для отправки тестового события...\n\n";
 
-    disp.dispatch({"user_login", "alice вошла в систему"});
-    disp.dispatch({"message", "Привет, как дела?"});
-    disp.dispatch({"unknown", "это никто не обработает"});
+    // Тестовое событие
+    dispatcher.dispatch({"file_created", "/watched/document.pdf"});
 
-    std::cout << "\nГотово.\n";
+    std::cin.get(); // Ждём нажатия Enter
+
+    std::cout << "\nЗавершение работы...\n";
+    redisClient.stopSubscriber();
+
     return 0;
 }

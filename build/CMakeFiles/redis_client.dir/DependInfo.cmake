@@ -8,8 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/workspaces/project/src/RedisPublisherHandler.cpp" "CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o" "gcc" "CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o.d"
-  "/workspaces/project/src/main.cpp" "CMakeFiles/app.dir/src/main.cpp.o" "gcc" "CMakeFiles/app.dir/src/main.cpp.o.d"
+  "/workspaces/project/src/RedisClient.cpp" "CMakeFiles/redis_client.dir/src/RedisClient.cpp.o" "gcc" "CMakeFiles/redis_client.dir/src/RedisClient.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
