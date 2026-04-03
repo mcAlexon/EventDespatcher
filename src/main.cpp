@@ -1,54 +1,60 @@
 #include <iostream>
-#include <chrono>
-#include <thread>
+#include <filesystem>
 #include "event_dispatcher/EventDispatcher.h"
 #include "redis/RedisClient.h"
+#include "logger/EventLogger.h"
 
-// Глобальный Redis клиент
 RedisClient redisClient("host.docker.internal", 6379);
+EventLogger eventLogger("logs/events.log");
 
 void LogHandler(const Event& e) {
     std::cout << "[LOG] " << e.type << ": " << e.payload << std::endl;
+    eventLogger.logEvent(e, EventStatus::PROCESSED, "LogHandler");
 }
 
 void EchoHandler(const Event& e) {
     std::cout << "[ECHO] → " << e.payload << std::endl;
+    eventLogger.logEvent(e, EventStatus::PROCESSED, "EchoHandler");
 }
 
 void RedisPublisherHandler(const Event& e);   // объявление
 
 int main() {
+    // Создаём папку watched/ автоматически
+    std::filesystem::create_directories("watched");
+
     EventDispatcher dispatcher;
 
-    std::cout << "=== FS-EventHub v0.3 (ЛР3) ===\n\n";
+    std::cout << "=== FS-EventHub v0.4 (ЛР2 + ЛР3 + Logger) ===\n";
+    std::cout << "Папка watched/ создана. Создавайте в ней файлы — скоро будем отслеживать в реальном времени.\n\n";
 
-    // Подключаемся к Redis
     if (!redisClient.connect()) {
-        std::cerr << "Не удалось подключиться к Redis!\n";
+        std::cerr << "Redis не подключился!\n";
         return 1;
     }
 
-    // Запускаем подписчика на Redis (в отдельном потоке)
     redisClient.startSubscriber("fs_events", [&](const Event& e) {
-        std::cout << "[RedisListener] Получено из Redis → " 
-                  << e.type << " | " << e.payload << std::endl;
+        std::cout << "[RedisListener] Получено из Redis: " << e.type << " | " << e.payload << std::endl;
+        eventLogger.logEvent(e, EventStatus::RECEIVED, "Из Redis");
     });
 
-    // Регистрируем обработчики
     dispatcher.registerHandler("file_created", LogHandler);
     dispatcher.registerHandler("file_created", EchoHandler);
     dispatcher.registerHandler("file_created", RedisPublisherHandler);
 
-    std::cout << "Система запущена. Ожидаем событий...\n";
-    std::cout << "Нажмите Enter для отправки тестового события...\n\n";
+    std::cout << "Система готова. Логи → logs/events.log\n\n";
 
-    // Тестовое событие
-    dispatcher.dispatch({"file_created", "/watched/document.pdf"});
+    // Тестовые события
+    for (int i = 1; i <= 3; ++i) {
+        Event e{"file_created", "watched/document_" + std::to_string(i) + ".pdf"};
+        dispatcher.dispatch(e);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+    }
 
-    std::cin.get(); // Ждём нажатия Enter
+    std::cout << "\nНажмите Enter для завершения...\n";
+    std::cin.get();
 
-    std::cout << "\nЗавершение работы...\n";
     redisClient.stopSubscriber();
-
+    std::cout << "Программа завершена.\n";
     return 0;
 }

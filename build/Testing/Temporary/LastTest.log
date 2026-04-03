@@ -1,0 +1,58 @@
+Start testing: Apr 03 10:24 UTC
+----------------------------------------------------------
+1/2 Testing: EventDispatcherTest.RegistersAndDispatches
+1/2 Test: EventDispatcherTest.RegistersAndDispatches
+Command: "/workspaces/project/build/tests" "--gtest_filter=EventDispatcherTest.RegistersAndDispatches" "--gtest_also_run_disabled_tests"
+Directory: /workspaces/project/build
+"EventDispatcherTest.RegistersAndDispatches" start time: Apr 03 10:24 UTC
+Output:
+----------------------------------------------------------
+Running main() from /usr/src/googletest/googletest/src/gtest_main.cc
+Note: Google Test filter = EventDispatcherTest.RegistersAndDispatches
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EventDispatcherTest
+[ RUN      ] EventDispatcherTest.RegistersAndDispatches
+[       OK ] EventDispatcherTest.RegistersAndDispatches (0 ms)
+[----------] 1 test from EventDispatcherTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"EventDispatcherTest.RegistersAndDispatches" end time: Apr 03 10:24 UTC
+"EventDispatcherTest.RegistersAndDispatches" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: EventSystemLoadTest.HandlesThousandEvents
+2/2 Test: EventSystemLoadTest.HandlesThousandEvents
+Command: "/workspaces/project/build/tests" "--gtest_filter=EventSystemLoadTest.HandlesThousandEvents" "--gtest_also_run_disabled_tests"
+Directory: /workspaces/project/build
+"EventSystemLoadTest.HandlesThousandEvents" start time: Apr 03 10:24 UTC
+Output:
+----------------------------------------------------------
+Running main() from /usr/src/googletest/googletest/src/gtest_main.cc
+Note: Google Test filter = EventSystemLoadTest.HandlesThousandEvents
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from EventSystemLoadTest
+[ RUN      ] EventSystemLoadTest.HandlesThousandEvents
+✅ Нагрузочное тестирование: 1000 событий обработано за 100 мс
+[       OK ] EventSystemLoadTest.HandlesThousandEvents (101 ms)
+[----------] 1 test from EventSystemLoadTest (101 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (101 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"EventSystemLoadTest.HandlesThousandEvents" end time: Apr 03 10:24 UTC
+"EventSystemLoadTest.HandlesThousandEvents" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Apr 03 10:24 UTC

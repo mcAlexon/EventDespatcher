@@ -111,6 +111,8 @@ app: CMakeFiles/app.dir/build.make
 app: libevent_dispatcher.a
 app: libhandlers.a
 app: libredis_client.a
+app: libevent_logger.a
+app: libevent_queue.a
 app: CMakeFiles/app.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/app.dir/link.txt --verbose=$(VERBOSE)

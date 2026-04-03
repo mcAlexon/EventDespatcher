@@ -1,0 +1,2 @@
+/usr/bin/ar qc libevent_queue.a CMakeFiles/event_queue.dir/src/EventQueue.cpp.o
+/usr/bin/ranlib libevent_queue.a

@@ -59,6 +59,8 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/event_dispatcher.dir/DependInfo.cmake"
   "CMakeFiles/handlers.dir/DependInfo.cmake"
   "CMakeFiles/redis_client.dir/DependInfo.cmake"
+  "CMakeFiles/event_logger.dir/DependInfo.cmake"
+  "CMakeFiles/event_queue.dir/DependInfo.cmake"
   "CMakeFiles/app.dir/DependInfo.cmake"
   "CMakeFiles/tests.dir/DependInfo.cmake"
   )

@@ -1,0 +1,656 @@
+devcontainer.json:
+{
+  "name": "C++ Event System (ЛР2 и дальше)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "postCreateCommand": "mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug ..",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake"
+      ]
+    }
+  },
+  "remoteUser": "devuser"
+}
+
+Dockerfile:
+FROM ubuntu:24.04
+
+# Чтобы apt не спрашивал подтверждения
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Устанавливаем ВСЁ, что нужно для всех твоих ЛР (и ЛР2 тоже)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    curl \
+    gdb \
+    valgrind \
+    libgtest-dev \
+    libgmock-dev \
+    libhiredis-dev \
+    libmicrohttpd-dev \
+    libspdlog-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# === Google Test: собираем библиотеки (это обязательно, пакет только даёт исходники) ===
+RUN cd /usr/src/googletest && \
+    cmake -B build -S . -DCMAKE_BUILD_TYPE=Release && \
+    cmake --build build && \
+    cmake --install build --prefix /usr/local
+
+# Устанавливаем ВСЁ, что нужно
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    curl \
+    gdb \
+    valgrind \
+    libgtest-dev \
+    libgmock-dev \
+    libhiredis-dev \
+    libmicrohttpd-dev \
+    libspdlog-dev \
+    redis-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+# Создаём обычного пользователя (чтобы не работать от root — это хорошая практика)
+RUN useradd -m -s /bin/bash devuser && chown -R devuser /home/devuser
+USER devuser
+WORKDIR /workspace
+
+EventDispatcher.h:
+#pragma once
+
+#include <functional>       // ← для std::function
+#include <string>           // ← для std::string
+#include <unordered_map>    // ← для std::unordered_map
+#include <vector>           // ← для std::vector
+
+struct Event {
+    std::string type;
+    std::string payload;
+};
+
+class EventDispatcher {
+public:
+    using Handler = std::function<void(const Event&)>;
+
+    void registerHandler(const std::string& eventType, Handler handler);
+    void dispatch(const Event& event);
+
+private:
+    std::unordered_map<std::string, std::vector<Handler>> handlers_;
+};
+
+EventLogger.h:
+#pragma once
+#include <string>
+#include <fstream>
+#include <mutex>
+#include <chrono>
+#include "../event_dispatcher/EventDispatcher.h"
+
+enum class EventStatus {
+    RECEIVED, PROCESSED, FAILED, RETRY, DROPPED
+};
+
+class EventLogger {
+public:
+    explicit EventLogger(const std::string& logFilePath = "logs/events.log");
+    ~EventLogger();
+
+    void logEvent(const Event& event, EventStatus status, const std::string& message = "");
+    void logSeparator();                    // ← новая функция
+
+private:
+    std::ofstream logFile_;
+    std::mutex mutex_;
+    std::string logFilePath_;
+
+    std::string statusToString(EventStatus status) const;
+    std::string currentTimestamp() const;
+};
+
+EventQueue.h:
+#pragma once
+#include <queue>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+#include "../event_dispatcher/EventDispatcher.h"
+
+struct QueuedEvent {
+    Event event;
+    int attempts = 0;
+    std::chrono::steady_clock::time_point nextRetryTime;
+};
+
+class EventQueue {
+public:
+    void push(const Event& e);
+    bool pop(QueuedEvent& outEvent, int timeoutMs = 100);
+
+    void markProcessed(const Event& e);           // ACK
+    void markFailed(const Event& e);              // NACK → retry или drop
+
+    size_t size() const;
+    bool empty() const;
+
+private:
+    std::queue<QueuedEvent> queue_;
+    mutable std::mutex mutex_;
+    std::condition_variable cv_;
+};
+
+RedisClient.h:
+
+#pragma once
+#include <string>
+#include <functional>
+#include <thread>
+#include <atomic>
+#include <hiredis/hiredis.h>
+#include "../event_dispatcher/EventDispatcher.h"
+
+class RedisClient {
+public:
+    explicit RedisClient(const std::string& host = "host.docker.internal", int port = 6379);
+    ~RedisClient();
+
+    bool connect();
+    void disconnect();
+
+    bool publish(const std::string& channel, const Event& event);
+
+    void startSubscriber(const std::string& channel, 
+                         std::function<void(const Event&)> onEventReceived);
+
+    void stopSubscriber();
+
+private:
+    std::string host_;
+    int port_;
+    redisContext* context_ = nullptr;
+
+    std::thread subscriberThread_;
+    std::atomic<bool> running_{false};
+
+    static std::string eventToString(const Event& e);
+    static Event stringToEvent(const std::string& str);
+};
+
+EchoHandler.cpp:
+#include <iostream>
+#include "event_dispatcher/EventDispatcher.h"
+
+void EchoHandler(const Event& e) {
+    std::cout << "[ECHO] Получено: " << e.payload << std::endl;
+}
+
+EventDispatcher.cpp:
+#include "event_dispatcher/EventDispatcher.h"
+
+// ← Вот эти две строки были пропущены — они критически важны
+#include <string>           // для std::string
+#include <unordered_map>    // для std::unordered_map
+
+void EventDispatcher::registerHandler(const std::string& eventType, Handler handler) {
+    handlers_[eventType].push_back(handler);
+}
+
+void EventDispatcher::dispatch(const Event& event) {
+    auto it = handlers_.find(event.type);
+    if (it != handlers_.end()) {
+        for (const auto& handler : it->second) {
+            handler(event);
+        }
+    }
+}
+
+EventLogger.cpp:
+#include "logger/EventLogger.h"
+#include <iostream>
+#include <filesystem>
+#include <iomanip>
+#include <sstream>
+
+EventLogger::EventLogger(const std::string& logFilePath) : logFilePath_(logFilePath) {
+    std::filesystem::create_directories(std::filesystem::path(logFilePath).parent_path());
+    
+    logFile_.open(logFilePath_, std::ios::app);
+    if (!logFile_.is_open()) {
+        std::cerr << "[EventLogger] Не удалось открыть файл лога: " << logFilePath_ << std::endl;
+    } else {
+        logSeparator();
+        logEvent({"SYSTEM", "Logger initialized"}, EventStatus::RECEIVED, "Логгер успешно запущен");
+    }
+}
+
+EventLogger::~EventLogger() {
+    if (logFile_.is_open()) {
+        logFile_.close();
+    }
+}
+
+void EventLogger::logEvent(const Event& event, EventStatus status, const std::string& message) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!logFile_.is_open()) return;
+
+    logFile_ << currentTimestamp()
+             << " | " << statusToString(status)
+             << " | " << event.type
+             << " | " << event.payload
+             << " | " << message
+             << std::endl;
+    logFile_.flush();
+}
+
+void EventLogger::logSeparator() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!logFile_.is_open()) return;
+
+    logFile_ << "\n" << std::string(90, '=') << "\n"
+             << "                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — " << currentTimestamp() << "\n"
+             << std::string(90, '=') << "\n\n";
+    logFile_.flush();
+}
+
+std::string EventLogger::statusToString(EventStatus status) const {
+    switch (status) {
+        case EventStatus::RECEIVED:  return "RECEIVED";
+        case EventStatus::PROCESSED: return "PROCESSED";
+        case EventStatus::FAILED:    return "FAILED";
+        case EventStatus::RETRY:     return "RETRY";
+        case EventStatus::DROPPED:   return "DROPPED";
+        default:                     return "UNKNOWN";
+    }
+}
+
+std::string EventLogger::currentTimestamp() const {
+    auto now = std::chrono::system_clock::now();
+    auto time_t_now = std::chrono::system_clock::to_time_t(now);
+    std::tm tm_now{};
+    localtime_r(&time_t_now, &tm_now);   // thread-safe версия
+
+    std::ostringstream ss;
+    ss << std::put_time(&tm_now, "%Y-%m-%d %H:%M:%S");
+    return ss.str();
+}
+
+EventQueue.cpp:
+
+#include "queue/EventQueue.h"
+#include <iostream>
+
+void EventQueue::push(const Event& e) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    QueuedEvent qe{ e, 0, {} };
+    queue_.push(qe);
+    cv_.notify_one();
+}
+
+bool EventQueue::pop(QueuedEvent& outEvent, int timeoutMs) {
+    std::unique_lock<std::mutex> lock(mutex_);
+
+    auto timeout = std::chrono::milliseconds(timeoutMs);
+    if (!cv_.wait_for(lock, timeout, [this] { return !queue_.empty(); })) {
+        return false; // таймаут
+    }
+
+    outEvent = queue_.front();
+    queue_.pop();
+    return true;
+}
+
+void EventQueue::markProcessed(const Event& e) {
+    // Для логов (можно расширить позже)
+    std::cout << "[Queue] ✓ ACK: " << e.type << " | " << e.payload << std::endl;
+}
+
+void EventQueue::markFailed(const Event& e) {
+    std::cout << "[Queue] ✗ NACK: " << e.type << " | " << e.payload << std::endl;
+}
+
+size_t EventQueue::size() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return queue_.size();
+}
+
+bool EventQueue::empty() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return queue_.empty();
+}
+
+LogHandler.cpp:
+
+#include <iostream>
+#include "event_dispatcher/EventDispatcher.h"
+
+void LogHandler(const Event& e) {
+    std::cout << "[LOG] Событие '" << e.type << "': " << e.payload << std::endl;
+}
+
+main.cpp:
+#include <iostream>
+#include <filesystem>
+#include "event_dispatcher/EventDispatcher.h"
+#include "redis/RedisClient.h"
+#include "logger/EventLogger.h"
+
+RedisClient redisClient("host.docker.internal", 6379);
+EventLogger eventLogger("logs/events.log");
+
+void LogHandler(const Event& e) {
+    std::cout << "[LOG] " << e.type << ": " << e.payload << std::endl;
+    eventLogger.logEvent(e, EventStatus::PROCESSED, "LogHandler");
+}
+
+void EchoHandler(const Event& e) {
+    std::cout << "[ECHO] → " << e.payload << std::endl;
+    eventLogger.logEvent(e, EventStatus::PROCESSED, "EchoHandler");
+}
+
+void RedisPublisherHandler(const Event& e);   // объявление
+
+int main() {
+    // Создаём папку watched/ автоматически
+    std::filesystem::create_directories("watched");
+
+    EventDispatcher dispatcher;
+
+    std::cout << "=== FS-EventHub v0.4 (ЛР2 + ЛР3 + Logger) ===\n";
+    std::cout << "Папка watched/ создана. Создавайте в ней файлы — скоро будем отслеживать в реальном времени.\n\n";
+
+    if (!redisClient.connect()) {
+        std::cerr << "Redis не подключился!\n";
+        return 1;
+    }
+
+    redisClient.startSubscriber("fs_events", [&](const Event& e) {
+        std::cout << "[RedisListener] Получено из Redis: " << e.type << " | " << e.payload << std::endl;
+        eventLogger.logEvent(e, EventStatus::RECEIVED, "Из Redis");
+    });
+
+    dispatcher.registerHandler("file_created", LogHandler);
+    dispatcher.registerHandler("file_created", EchoHandler);
+    dispatcher.registerHandler("file_created", RedisPublisherHandler);
+
+    std::cout << "Система готова. Логи → logs/events.log\n\n";
+
+    // Тестовые события
+    for (int i = 1; i <= 3; ++i) {
+        Event e{"file_created", "watched/document_" + std::to_string(i) + ".pdf"};
+        dispatcher.dispatch(e);
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+    }
+
+    std::cout << "\nНажмите Enter для завершения...\n";
+    std::cin.get();
+
+    redisClient.stopSubscriber();
+    std::cout << "Программа завершена.\n";
+    return 0;
+}
+
+RedisClient.cpp:
+#include "redis/RedisClient.h"
+#include <iostream>
+#include <sstream>
+
+RedisClient::RedisClient(const std::string& host, int port)
+    : host_(host), port_(port) {}
+
+RedisClient::~RedisClient() {
+    stopSubscriber();
+    disconnect();
+}
+
+bool RedisClient::connect() {
+    if (context_) return true;
+
+    context_ = redisConnect(host_.c_str(), port_);
+    if (!context_ || context_->err) {
+        std::cerr << "[Redis] Connection error: " 
+                  << (context_ ? context_->errstr : "Can't allocate") << std::endl;
+        if (context_) redisFree(context_);
+        context_ = nullptr;
+        return false;
+    }
+    std::cout << "[Redis] Успешно подключено к " << host_ << ":" << port_ << std::endl;
+    return true;
+}
+
+void RedisClient::disconnect() {
+    if (context_) {
+        redisFree(context_);
+        context_ = nullptr;
+    }
+}
+
+bool RedisClient::publish(const std::string& channel, const Event& event) {
+    if (!context_ && !connect()) return false;
+
+    std::string msg = eventToString(event);
+    redisReply* reply = (redisReply*)redisCommand(context_, "PUBLISH %s %s", 
+                                                  channel.c_str(), msg.c_str());
+    
+    bool success = (reply != nullptr);
+    if (reply) freeReplyObject(reply);
+    return success;
+}
+
+void RedisClient::startSubscriber(const std::string& channel, 
+                                  std::function<void(const Event&)> onEventReceived) {
+    if (running_) return;
+
+    running_ = true;
+    subscriberThread_ = std::thread([this, channel, onEventReceived]() {
+        redisContext* subCtx = redisConnect(host_.c_str(), port_);
+        if (!subCtx || subCtx->err) {
+            std::cerr << "[Redis Subscriber] Connection failed" << std::endl;
+            return;
+        }
+
+        redisReply* reply = (redisReply*)redisCommand(subCtx, "SUBSCRIBE %s", channel.c_str());
+        freeReplyObject(reply);
+
+        std::cout << "[Redis] Подписка на канал: " << channel << std::endl;
+
+        while (running_ && redisGetReply(subCtx, (void**)&reply) == REDIS_OK) {
+            if (reply && reply->type == REDIS_REPLY_ARRAY && reply->elements == 3) {
+                std::string message = reply->element[2]->str;
+                Event e = stringToEvent(message);
+                onEventReceived(e);
+            }
+            if (reply) freeReplyObject(reply);
+        }
+        redisFree(subCtx);
+    });
+}
+
+void RedisClient::stopSubscriber() {
+    running_ = false;
+    if (subscriberThread_.joinable()) {
+        subscriberThread_.join();
+    }
+}
+
+std::string RedisClient::eventToString(const Event& e) {
+    return e.type + "|" + e.payload;
+}
+
+Event RedisClient::stringToEvent(const std::string& str) {
+    size_t pos = str.find('|');
+    if (pos == std::string::npos) return {"unknown", str};
+    return {str.substr(0, pos), str.substr(pos + 1)};
+}
+
+RedisPublisherHandler.cpp:
+
+#include <gtest/gtest.h>
+#include "event_dispatcher/EventDispatcher.h"
+#include <string>
+
+TEST(EventDispatcherTest, RegistersAndDispatches) {
+    EventDispatcher dispatcher;
+
+    std::string logResult, echoResult;
+
+    dispatcher.registerHandler("test", [&](const Event& e) {
+        logResult = e.payload;
+    });
+    dispatcher.registerHandler("test", [&](const Event& e) {
+        echoResult = "echo_" + e.payload;
+    });
+
+    Event ev{"test", "hello_world"};
+    dispatcher.dispatch(ev);
+
+    EXPECT_EQ(logResult, "hello_world");
+    EXPECT_EQ(echoResult, "echo_hello_world");
+}
+
+EventDispatcherTest.cpp:
+#include <gtest/gtest.h>
+#include "event_dispatcher/EventDispatcher.h"
+#include <string>
+
+TEST(EventDispatcherTest, RegistersAndDispatches) {
+    EventDispatcher dispatcher;
+
+    std::string logResult, echoResult;
+
+    dispatcher.registerHandler("test", [&](const Event& e) {
+        logResult = e.payload;
+    });
+    dispatcher.registerHandler("test", [&](const Event& e) {
+        echoResult = "echo_" + e.payload;
+    });
+
+    Event ev{"test", "hello_world"};
+    dispatcher.dispatch(ev);
+
+    EXPECT_EQ(logResult, "hello_world");
+    EXPECT_EQ(echoResult, "echo_hello_world");
+}
+
+EventLoadTest.cpp:
+
+#include <gtest/gtest.h>
+#include "logger/EventLogger.h"
+#include "event_dispatcher/EventDispatcher.h"
+#include <chrono>
+#include <thread>
+
+TEST(EventSystemLoadTest, HandlesThousandEvents) {
+    EventLogger logger("logs/load_test.log");
+    EventDispatcher dispatcher;
+
+    int processedCount = 0;
+
+    dispatcher.registerHandler("load_test", [&](const Event& e) {
+        logger.logEvent(e, EventStatus::PROCESSED, "Нагрузочный тест");
+        processedCount++;
+    });
+
+    const int TOTAL_EVENTS = 1000;
+
+    auto start = std::chrono::high_resolution_clock::now();
+
+    for (int i = 0; i < TOTAL_EVENTS; ++i) {
+        dispatcher.dispatch({"load_test", "event_" + std::to_string(i)});
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    EXPECT_EQ(processedCount, TOTAL_EVENTS);
+
+    std::cout << "✅ Нагрузочное тестирование: " 
+              << TOTAL_EVENTS << " событий обработано за " 
+              << duration.count() << " мс\n";
+}
+
+CMakeLists.txt:
+cmake_minimum_required(VERSION 3.14)
+project(FS-EventHub LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+
+# ====================== Основные библиотеки ======================
+add_library(event_dispatcher
+    src/EventDispatcher.cpp
+)
+
+add_library(handlers
+    src/LogHandler.cpp
+    src/EchoHandler.cpp
+)
+
+# ====================== Redis ======================
+add_library(redis_client
+    src/RedisClient.cpp
+)
+
+target_link_libraries(redis_client PRIVATE hiredis)
+
+# ====================== Logger ======================
+add_library(event_logger
+    src/EventLogger.cpp
+)
+
+# ====================== Queue ======================
+add_library(event_queue
+    src/EventQueue.cpp
+)
+
+# ====================== Обновлённое приложение ======================
+add_executable(app
+    src/main.cpp
+    src/RedisPublisherHandler.cpp
+)
+
+target_link_libraries(app PRIVATE
+    event_dispatcher
+    handlers
+    redis_client
+    event_logger
+    event_queue      # ← добавили
+    pthread
+)
+
+# ====================== Тесты ======================
+enable_testing()
+find_package(GTest REQUIRED)
+
+add_executable(tests
+    tests/EventDispatcherTest.cpp
+    tests/EventLoadTest.cpp        
+)
+
+target_link_libraries(tests PRIVATE
+    event_dispatcher
+    handlers
+    event_logger
+    GTest::GTest
+    GTest::Main
+    pthread
+)
+
+include(GoogleTest)
+gtest_discover_tests(tests)
