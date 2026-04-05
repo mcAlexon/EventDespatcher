@@ -3,6 +3,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <unordered_map>
+#include <string>
 #include "../event_dispatcher/EventDispatcher.h"
 
 struct QueuedEvent {
@@ -17,7 +19,7 @@ public:
     bool pop(QueuedEvent& outEvent, int timeoutMs = 100);
 
     void markProcessed(const Event& e);           // ACK
-    void markFailed(const Event& e);              // NACK → retry или drop
+    void markFailed(const Event& e);              // NACK → retry (3 попытки) или drop
 
     size_t size() const;
     bool empty() const;
@@ -26,4 +28,5 @@ private:
     std::queue<QueuedEvent> queue_;
     mutable std::mutex mutex_;
     std::condition_variable cv_;
+    std::unordered_map<std::string, int> attemptCounts_;  // key = type|payload
 };

@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/app.dir/src/main.cpp.o CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o -o app  libevent_dispatcher.a libhandlers.a libredis_client.a libevent_logger.a libevent_queue.a -lpthread libsystem_watcher.a -lhiredis 
+/usr/bin/c++ -g CMakeFiles/app.dir/src/main.cpp.o CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.o -o app  libevent_dispatcher.a libhandlers.a libredis_client.a libevent_logger.a libevent_queue.a libsystem_watcher.a libstate_storage.a -lpthread -lhiredis 

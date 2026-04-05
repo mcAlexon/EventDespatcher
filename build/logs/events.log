@@ -104,3 +104,32 @@
 2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/Penis.txt | LogHandler
 2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/gfdfgg.txt | LogHandler
 2026-04-03 11:17:36 | PROCESSED | file_deleted | watched/1.txt | LogHandler
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-05 15:26:32
+==========================================================================================
+
+2026-04-05 15:26:32 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-05 15:26:32 | PROCESSED | file_created | watched/fdgfdg | LogHandler
+2026-04-05 15:26:32 | PROCESSED | file_created | watched/fdgfdg | EchoHandler
+2026-04-05 15:26:32 | RECEIVED | file_created | watched/fdgfdg | Из Redis
+2026-04-05 15:26:32 | PROCESSED | file_created | watched/ломдлаьи | LogHandler
+2026-04-05 15:26:32 | PROCESSED | file_created | watched/ломдлаьи | EchoHandler
+2026-04-05 15:26:32 | RECEIVED | file_created | watched/ломдлаьи | Из Redis
+
+==========================================================================================
+                    НОВЫЙ ЗАПУСК ПРОГРАММЫ — 2026-04-05 15:41:03
+==========================================================================================
+
+2026-04-05 15:41:03 | RECEIVED | SYSTEM | Logger initialized | Логгер успешно запущен
+2026-04-05 15:41:03 | PROCESSED | file_created | watched/fdgfdg | LogHandler
+2026-04-05 15:41:03 | PROCESSED | file_created | watched/fdgfdg | EchoHandler
+2026-04-05 15:41:03 | RECEIVED | file_created | watched/fdgfdg | Из Redis
+2026-04-05 15:41:03 | PROCESSED | file_created | watched/ломдлаьи | LogHandler
+2026-04-05 15:41:03 | PROCESSED | file_created | watched/ломдлаьи | EchoHandler
+2026-04-05 15:41:03 | RECEIVED | file_created | watched/ломдлаьи | Из Redis
+2026-04-05 15:41:03 | PROCESSED | file_deleted | watched/1.txt | LogHandler
+2026-04-05 15:41:03 | PROCESSED | file_deleted | watched/2.txt | LogHandler
+2026-04-05 15:41:31 | PROCESSED | file_created | watched/1юече | LogHandler
+2026-04-05 15:41:31 | PROCESSED | file_created | watched/1юече | EchoHandler
+2026-04-05 15:41:31 | RECEIVED | file_created | watched/1юече | Из Redis

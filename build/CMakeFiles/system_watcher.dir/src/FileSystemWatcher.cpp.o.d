@@ -192,4 +192,6 @@ CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.o: \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/bits/stl_heap.h \
  /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/iostream
+ /usr/include/c++/13/bits/stl_tempbuf.h \
+ /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h \
+ /usr/include/c++/13/chrono /usr/include/c++/13/iostream

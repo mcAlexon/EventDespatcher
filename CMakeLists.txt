@@ -5,9 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# ====================== Пути ======================
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # ====================== Основные библиотеки ======================
+
 add_library(event_dispatcher
     src/EventDispatcher.cpp
 )
@@ -33,11 +35,20 @@ add_library(event_logger
 add_library(event_queue
     src/EventQueue.cpp
 )
+
+# ====================== State Storage ======================
+add_library(state_storage
+    src/FileStateStorage.cpp
+)
+
 # ====================== FileSystemWatcher ======================
 add_library(system_watcher
     src/FileSystemWatcher.cpp
 )
-# ====================== Обновлённое приложение ======================
+
+target_link_libraries(system_watcher PRIVATE state_storage)
+
+# ====================== Приложение ======================
 add_executable(app
     src/main.cpp
     src/RedisPublisherHandler.cpp
@@ -48,9 +59,10 @@ target_link_libraries(app PRIVATE
     handlers
     redis_client
     event_logger
-    event_queue      
-    pthread
+    event_queue
     system_watcher
+    state_storage
+    pthread
 )
 
 # ====================== Тесты ======================
@@ -59,7 +71,7 @@ find_package(GTest REQUIRED)
 
 add_executable(tests
     tests/EventDispatcherTest.cpp
-    tests/EventLoadTest.cpp        
+    tests/EventLoadTest.cpp
 )
 
 target_link_libraries(tests PRIVATE
@@ -73,3 +85,13 @@ target_link_libraries(tests PRIVATE
 
 include(GoogleTest)
 gtest_discover_tests(tests)
+
+# ====================== Дополнительные настройки ======================
+# Создаём папки при сборке (опционально)
+add_custom_command(TARGET app POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory 
+        ${CMAKE_BINARY_DIR}/watched
+        ${CMAKE_BINARY_DIR}/logs
+        ${CMAKE_BINARY_DIR}/storage
+    COMMENT "Создание рабочих директорий"
+)

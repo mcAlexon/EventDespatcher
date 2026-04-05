@@ -192,6 +192,19 @@ event_queue/fast:
 .PHONY : event_queue/fast
 
 #=============================================================================
+# Target rules for targets named state_storage
+
+# Build rule for target.
+state_storage: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 state_storage
+.PHONY : state_storage
+
+# fast build rule for target.
+state_storage/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/state_storage.dir/build.make CMakeFiles/state_storage.dir/build
+.PHONY : state_storage/fast
+
+#=============================================================================
 # Target rules for targets named system_watcher
 
 # Build rule for target.
@@ -325,6 +338,30 @@ src/EventQueue.s: src/EventQueue.cpp.s
 src/EventQueue.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/event_queue.dir/build.make CMakeFiles/event_queue.dir/src/EventQueue.cpp.s
 .PHONY : src/EventQueue.cpp.s
+
+src/FileStateStorage.o: src/FileStateStorage.cpp.o
+.PHONY : src/FileStateStorage.o
+
+# target to build an object file
+src/FileStateStorage.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/state_storage.dir/build.make CMakeFiles/state_storage.dir/src/FileStateStorage.cpp.o
+.PHONY : src/FileStateStorage.cpp.o
+
+src/FileStateStorage.i: src/FileStateStorage.cpp.i
+.PHONY : src/FileStateStorage.i
+
+# target to preprocess a source file
+src/FileStateStorage.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/state_storage.dir/build.make CMakeFiles/state_storage.dir/src/FileStateStorage.cpp.i
+.PHONY : src/FileStateStorage.cpp.i
+
+src/FileStateStorage.s: src/FileStateStorage.cpp.s
+.PHONY : src/FileStateStorage.s
+
+# target to generate assembly for a file
+src/FileStateStorage.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/state_storage.dir/build.make CMakeFiles/state_storage.dir/src/FileStateStorage.cpp.s
+.PHONY : src/FileStateStorage.cpp.s
 
 src/FileSystemWatcher.o: src/FileSystemWatcher.cpp.o
 .PHONY : src/FileSystemWatcher.o
@@ -509,6 +546,7 @@ help:
 	@echo "... event_queue"
 	@echo "... handlers"
 	@echo "... redis_client"
+	@echo "... state_storage"
 	@echo "... system_watcher"
 	@echo "... tests"
 	@echo "... src/EchoHandler.o"
@@ -523,6 +561,9 @@ help:
 	@echo "... src/EventQueue.o"
 	@echo "... src/EventQueue.i"
 	@echo "... src/EventQueue.s"
+	@echo "... src/FileStateStorage.o"
+	@echo "... src/FileStateStorage.i"
+	@echo "... src/FileStateStorage.s"
 	@echo "... src/FileSystemWatcher.o"
 	@echo "... src/FileSystemWatcher.i"
 	@echo "... src/FileSystemWatcher.s"

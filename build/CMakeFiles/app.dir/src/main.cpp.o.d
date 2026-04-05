@@ -205,4 +205,5 @@ CMakeFiles/app.dir/src/main.cpp.o: /workspaces/project/src/main.cpp \
  /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/mutex \
  /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/chrono \
- /workspaces/project/include/system_watcher/FileSystemWatcher.h
+ /workspaces/project/include/system_watcher/FileSystemWatcher.h \
+ /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h
