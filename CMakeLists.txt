@@ -8,6 +8,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ====================== Пути ======================
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+# ====================== Поиск пакетов ======================
+find_package(nlohmann_json QUIET)   # QUIET — чтобы не падал, если не через cmake
+
 # ====================== Основные библиотеки ======================
 
 add_library(event_dispatcher
@@ -23,7 +26,6 @@ add_library(handlers
 add_library(redis_client
     src/RedisClient.cpp
 )
-
 target_link_libraries(redis_client PRIVATE hiredis)
 
 # ====================== Logger ======================
@@ -46,7 +48,15 @@ add_library(system_watcher
     src/FileSystemWatcher.cpp
 )
 
-target_link_libraries(system_watcher PRIVATE state_storage)
+target_link_libraries(system_watcher PRIVATE 
+    state_storage 
+    event_queue          # ← ЭТО БЫЛО ГЛАВНОЙ ПРИЧИНОЙ!
+)
+
+# ====================== ThreadPool (ЛР5) ======================
+add_library(thread_pool
+    src/ThreadPool.cpp
+)
 
 # ====================== Приложение ======================
 add_executable(app
@@ -62,22 +72,33 @@ target_link_libraries(app PRIVATE
     event_queue
     system_watcher
     state_storage
+    thread_pool
     pthread
 )
 
+# Если nlohmann_json найден через find_package
+if(TARGET nlohmann_json::nlohmann_json)
+    target_link_libraries(state_storage PRIVATE nlohmann_json::nlohmann_json)
+    target_link_libraries(app PRIVATE nlohmann_json::nlohmann_json)
+endif()
+
+# ====================== Тесты ======================
 # ====================== Тесты ======================
 enable_testing()
 find_package(GTest REQUIRED)
 
 add_executable(tests
-    tests/EventDispatcherTest.cpp
-    tests/EventLoadTest.cpp
+    tests/EventLoadTestAdvanced.cpp
 )
 
 target_link_libraries(tests PRIVATE
     event_dispatcher
     handlers
     event_logger
+    event_queue          # ← обязательно
+    system_watcher       # ← обязательно
+    state_storage
+    thread_pool
     GTest::GTest
     GTest::Main
     pthread
@@ -85,9 +106,7 @@ target_link_libraries(tests PRIVATE
 
 include(GoogleTest)
 gtest_discover_tests(tests)
-
-# ====================== Дополнительные настройки ======================
-# Создаём папки при сборке (опционально)
+# ====================== Пост-действия ======================
 add_custom_command(TARGET app POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory 
         ${CMAKE_BINARY_DIR}/watched

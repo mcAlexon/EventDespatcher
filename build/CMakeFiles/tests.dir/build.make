@@ -69,52 +69,41 @@ include CMakeFiles/tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/tests.dir/flags.make
 
-CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o: CMakeFiles/tests.dir/flags.make
-CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o: /workspaces/project/tests/EventDispatcherTest.cpp
-CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o -MF CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o.d -o CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o -c /workspaces/project/tests/EventDispatcherTest.cpp
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o: CMakeFiles/tests.dir/flags.make
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o: /workspaces/project/tests/EventLoadTestAdvanced.cpp
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o -MF CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o.d -o CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o -c /workspaces/project/tests/EventLoadTestAdvanced.cpp
 
-CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/project/tests/EventDispatcherTest.cpp > CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.i
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/project/tests/EventLoadTestAdvanced.cpp > CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.i
 
-CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/project/tests/EventDispatcherTest.cpp -o CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.s
-
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o: CMakeFiles/tests.dir/flags.make
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o: /workspaces/project/tests/EventLoadTest.cpp
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o: CMakeFiles/tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o -MF CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o.d -o CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o -c /workspaces/project/tests/EventLoadTest.cpp
-
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tests.dir/tests/EventLoadTest.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /workspaces/project/tests/EventLoadTest.cpp > CMakeFiles/tests.dir/tests/EventLoadTest.cpp.i
-
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/tests/EventLoadTest.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/project/tests/EventLoadTest.cpp -o CMakeFiles/tests.dir/tests/EventLoadTest.cpp.s
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /workspaces/project/tests/EventLoadTestAdvanced.cpp -o CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.s
 
 # Object files for target tests
 tests_OBJECTS = \
-"CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o" \
-"CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o"
+"CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o"
 
 # External object files for target tests
 tests_EXTERNAL_OBJECTS =
 
-tests: CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o
-tests: CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o
+tests: CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o
 tests: CMakeFiles/tests.dir/build.make
 tests: libevent_dispatcher.a
 tests: libhandlers.a
 tests: libevent_logger.a
+tests: libevent_queue.a
+tests: libsystem_watcher.a
+tests: libstate_storage.a
+tests: libthread_pool.a
+tests: libevent_queue.a
 tests: /usr/local/lib/libgtest_main.a
 tests: /usr/local/lib/libgtest.a
 tests: CMakeFiles/tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/workspaces/project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)
 	/usr/bin/cmake -D TEST_TARGET=tests -D TEST_EXECUTABLE=/workspaces/project/build/tests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/workspaces/project/build -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=tests_TESTS -D CTEST_FILE=/workspaces/project/build/tests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /usr/share/cmake-3.28/Modules/GoogleTestAddTests.cmake
 

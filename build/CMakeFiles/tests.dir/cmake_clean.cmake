@@ -1,8 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o"
-  "CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o.d"
-  "CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o"
-  "CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o.d"
+  "CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o"
+  "CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o.d"
   "tests"
   "tests.pdb"
   "tests[1]_tests.cmake"

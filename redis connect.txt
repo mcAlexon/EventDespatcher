@@ -1,0 +1,3 @@
+docker run -d --name redis-local -p 6379:6379 redis:7-alpine
+
+70ec05d86a1afbdb00b006703a82245e373fd12722f370d48c226858f59064bf

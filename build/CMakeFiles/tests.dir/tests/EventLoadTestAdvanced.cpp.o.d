@@ -1,6 +1,7 @@
-CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o: \
- /workspaces/project/tests/EventLoadTest.cpp /usr/include/stdc-predef.h \
- /usr/local/include/gtest/gtest.h /usr/include/c++/13/cstddef \
+CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o: \
+ /workspaces/project/tests/EventLoadTestAdvanced.cpp \
+ /usr/include/stdc-predef.h /usr/local/include/gtest/gtest.h \
+ /usr/include/c++/13/cstddef \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -275,11 +276,20 @@ CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o: \
  /usr/local/include/gtest/gtest-typed-test.h \
  /usr/local/include/gtest/gtest_pred_impl.h \
  /usr/local/include/gtest/gtest_prod.h \
- /workspaces/project/include/logger/EventLogger.h \
+ /workspaces/project/include/queue/EventQueue.h /usr/include/c++/13/queue \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/chrono \
+ /workspaces/project/include/queue/../event_dispatcher/EventDispatcher.h \
+ /workspaces/project/include/thread_pool/ThreadPool.h \
+ /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h \
+ /workspaces/project/include/system_watcher/FileSystemWatcher.h \
+ /usr/include/c++/13/filesystem /usr/include/c++/13/bits/fs_fwd.h \
+ /usr/include/c++/13/bits/fs_path.h /usr/include/c++/13/codecvt \
+ /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
+ /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h \
  /usr/include/c++/13/fstream \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
- /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/chrono \
- /workspaces/project/include/logger/../event_dispatcher/EventDispatcher.h \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h
+ /usr/include/c++/13/bits/fstream.tcc

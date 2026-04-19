@@ -1,0 +1,2 @@
+/usr/bin/ar qc libfile_storage.a CMakeFiles/file_storage.dir/src/FileStateStorage.cpp.o
+/usr/bin/ranlib libfile_storage.a

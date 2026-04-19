@@ -194,4 +194,11 @@ CMakeFiles/system_watcher.dir/src/FileSystemWatcher.cpp.o: \
  /usr/include/c++/13/bits/uniform_int_dist.h \
  /usr/include/c++/13/bits/stl_tempbuf.h \
  /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h \
- /usr/include/c++/13/chrono /usr/include/c++/13/iostream
+ /usr/include/c++/13/chrono \
+ /workspaces/project/include/system_watcher/../queue/EventQueue.h \
+ /usr/include/c++/13/queue /usr/include/c++/13/deque \
+ /usr/include/c++/13/bits/stl_deque.h /usr/include/c++/13/bits/deque.tcc \
+ /usr/include/c++/13/bits/stl_queue.h /usr/include/c++/13/mutex \
+ /usr/include/c++/13/bits/std_mutex.h \
+ /usr/include/c++/13/bits/unique_lock.h \
+ /usr/include/c++/13/condition_variable /usr/include/c++/13/iostream

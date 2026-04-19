@@ -172,6 +172,8 @@ CMakeFiles/app.dir/src/main.cpp.o: /workspaces/project/src/main.cpp \
  /usr/include/c++/13/bits/unique_ptr.h \
  /usr/include/c++/13/ext/aligned_buffer.h \
  /usr/include/c++/13/bits/fs_dir.h /usr/include/c++/13/bits/fs_ops.h \
+ /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/chrono \
  /workspaces/project/include/event_dispatcher/EventDispatcher.h \
  /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
  /usr/include/c++/13/unordered_map \
@@ -191,9 +193,7 @@ CMakeFiles/app.dir/src/main.cpp.o: /workspaces/project/src/main.cpp \
  /usr/include/c++/13/bits/uniform_int_dist.h \
  /usr/include/c++/13/bits/stl_tempbuf.h \
  /workspaces/project/include/redis/RedisClient.h \
- /usr/include/c++/13/thread /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/c++/13/atomic \
- /usr/include/c++/13/bits/atomic_base.h \
+ /usr/include/c++/13/atomic /usr/include/c++/13/bits/atomic_base.h \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
  /usr/include/hiredis/hiredis.h /usr/include/hiredis/read.h \
  /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/hiredis/sds.h \
@@ -204,6 +204,11 @@ CMakeFiles/app.dir/src/main.cpp.o: /workspaces/project/src/main.cpp \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \
  /usr/include/c++/13/bits/fstream.tcc /usr/include/c++/13/mutex \
  /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/chrono \
+ /usr/include/c++/13/bits/unique_lock.h \
+ /workspaces/project/include/queue/EventQueue.h /usr/include/c++/13/queue \
+ /usr/include/c++/13/deque /usr/include/c++/13/bits/stl_deque.h \
+ /usr/include/c++/13/bits/deque.tcc /usr/include/c++/13/bits/stl_queue.h \
+ /usr/include/c++/13/condition_variable \
  /workspaces/project/include/system_watcher/FileSystemWatcher.h \
- /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h
+ /workspaces/project/include/system_watcher/../state_storage/FileStateStorage.h \
+ /workspaces/project/include/thread_pool/ThreadPool.h

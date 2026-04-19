@@ -1,1 +1,1 @@
-/usr/bin/c++ -g CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o -o tests  libevent_dispatcher.a libhandlers.a libevent_logger.a -lpthread /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a 
+/usr/bin/c++ -g CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o -o tests  libevent_dispatcher.a libhandlers.a libevent_logger.a libevent_queue.a libsystem_watcher.a libstate_storage.a libthread_pool.a -lpthread libevent_queue.a /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a 

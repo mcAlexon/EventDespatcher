@@ -1,8 +1,14 @@
 #include "system_watcher/FileSystemWatcher.h"
 #include <iostream>
 
-FileSystemWatcher::FileSystemWatcher(const std::string& path, EventDispatcher& dispatcher)
-    : path_(path), dispatcher_(dispatcher), storage_("storage/files.json") {
+FileSystemWatcher::FileSystemWatcher(const std::string& path, 
+                                     EventDispatcher& dispatcher, 
+                                     EventQueue& queue)
+    : path_(path), 
+      dispatcher_(dispatcher), 
+      queue_(queue), 
+      storage_("storage/files.json") 
+{
     loadState();
 }
 
@@ -14,7 +20,7 @@ void FileSystemWatcher::loadState() {
     for (const auto& [path, sInfo] : tempState) {
         FileInfo fInfo;
         fInfo.size = sInfo.size;
-        fInfo.lastWriteTime = std::filesystem::file_time_type{};  // default → используем size для offline-проверки
+        fInfo.lastWriteTime = std::filesystem::file_time_type{};
         previousState_[path] = fInfo;
     }
     std::cout << "[Watcher] Загружено состояние " << previousState_.size() 
@@ -49,27 +55,28 @@ void FileSystemWatcher::scan() {
 
         currentState[filename] = info;
 
-        // 🆕 Новый файл
+        // Новый файл
         if (previousState_.find(filename) == previousState_.end()) {
-            dispatcher_.dispatch({"file_created", filename});
+            queue_.push({"file_created", filename});           // ← теперь через очередь
         }
         else {
-            // 🔄 Изменён (size — для offline-изменений, time — для runtime)
+            // Изменённый файл
             auto& old = previousState_[filename];
             if (old.size != info.size || 
-                (old.lastWriteTime != info.lastWriteTime && old.lastWriteTime != std::filesystem::file_time_type{})) {
-                dispatcher_.dispatch({"file_modified", filename});
+                (old.lastWriteTime != info.lastWriteTime && 
+                 old.lastWriteTime != std::filesystem::file_time_type{})) {
+                queue_.push({"file_modified", filename});      // ← через очередь
             }
         }
     }
 
-    // ❌ Удалённые → состояние тоже удаляется из JSON
+    // Удалённые файлы
     for (const auto& [filename, _] : previousState_) {
         if (currentState.find(filename) == currentState.end()) {
-            dispatcher_.dispatch({"file_deleted", filename});
+            queue_.push({"file_deleted", filename});           // ← через очередь
         }
     }
 
-    previousState_ = currentState;
-    saveState();   // ← сохраняем после каждого скана
+    previousState_ = std::move(currentState);
+    saveState();
 }

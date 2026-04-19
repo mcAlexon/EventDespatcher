@@ -5,6 +5,7 @@
 /workspaces/project/build/CMakeFiles/event_queue.dir
 /workspaces/project/build/CMakeFiles/state_storage.dir
 /workspaces/project/build/CMakeFiles/system_watcher.dir
+/workspaces/project/build/CMakeFiles/thread_pool.dir
 /workspaces/project/build/CMakeFiles/app.dir
 /workspaces/project/build/CMakeFiles/tests.dir
 /workspaces/project/build/CMakeFiles/test.dir

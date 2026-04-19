@@ -218,6 +218,19 @@ system_watcher/fast:
 .PHONY : system_watcher/fast
 
 #=============================================================================
+# Target rules for targets named thread_pool
+
+# Build rule for target.
+thread_pool: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 thread_pool
+.PHONY : thread_pool
+
+# fast build rule for target.
+thread_pool/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/thread_pool.dir/build.make CMakeFiles/thread_pool.dir/build
+.PHONY : thread_pool/fast
+
+#=============================================================================
 # Target rules for targets named app
 
 # Build rule for target.
@@ -459,6 +472,30 @@ src/RedisPublisherHandler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/RedisPublisherHandler.cpp.s
 .PHONY : src/RedisPublisherHandler.cpp.s
 
+src/ThreadPool.o: src/ThreadPool.cpp.o
+.PHONY : src/ThreadPool.o
+
+# target to build an object file
+src/ThreadPool.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/thread_pool.dir/build.make CMakeFiles/thread_pool.dir/src/ThreadPool.cpp.o
+.PHONY : src/ThreadPool.cpp.o
+
+src/ThreadPool.i: src/ThreadPool.cpp.i
+.PHONY : src/ThreadPool.i
+
+# target to preprocess a source file
+src/ThreadPool.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/thread_pool.dir/build.make CMakeFiles/thread_pool.dir/src/ThreadPool.cpp.i
+.PHONY : src/ThreadPool.cpp.i
+
+src/ThreadPool.s: src/ThreadPool.cpp.s
+.PHONY : src/ThreadPool.s
+
+# target to generate assembly for a file
+src/ThreadPool.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/thread_pool.dir/build.make CMakeFiles/thread_pool.dir/src/ThreadPool.cpp.s
+.PHONY : src/ThreadPool.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -483,53 +520,29 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-tests/EventDispatcherTest.o: tests/EventDispatcherTest.cpp.o
-.PHONY : tests/EventDispatcherTest.o
+tests/EventLoadTestAdvanced.o: tests/EventLoadTestAdvanced.cpp.o
+.PHONY : tests/EventLoadTestAdvanced.o
 
 # target to build an object file
-tests/EventDispatcherTest.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.o
-.PHONY : tests/EventDispatcherTest.cpp.o
+tests/EventLoadTestAdvanced.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.o
+.PHONY : tests/EventLoadTestAdvanced.cpp.o
 
-tests/EventDispatcherTest.i: tests/EventDispatcherTest.cpp.i
-.PHONY : tests/EventDispatcherTest.i
-
-# target to preprocess a source file
-tests/EventDispatcherTest.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.i
-.PHONY : tests/EventDispatcherTest.cpp.i
-
-tests/EventDispatcherTest.s: tests/EventDispatcherTest.cpp.s
-.PHONY : tests/EventDispatcherTest.s
-
-# target to generate assembly for a file
-tests/EventDispatcherTest.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventDispatcherTest.cpp.s
-.PHONY : tests/EventDispatcherTest.cpp.s
-
-tests/EventLoadTest.o: tests/EventLoadTest.cpp.o
-.PHONY : tests/EventLoadTest.o
-
-# target to build an object file
-tests/EventLoadTest.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.o
-.PHONY : tests/EventLoadTest.cpp.o
-
-tests/EventLoadTest.i: tests/EventLoadTest.cpp.i
-.PHONY : tests/EventLoadTest.i
+tests/EventLoadTestAdvanced.i: tests/EventLoadTestAdvanced.cpp.i
+.PHONY : tests/EventLoadTestAdvanced.i
 
 # target to preprocess a source file
-tests/EventLoadTest.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.i
-.PHONY : tests/EventLoadTest.cpp.i
+tests/EventLoadTestAdvanced.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.i
+.PHONY : tests/EventLoadTestAdvanced.cpp.i
 
-tests/EventLoadTest.s: tests/EventLoadTest.cpp.s
-.PHONY : tests/EventLoadTest.s
+tests/EventLoadTestAdvanced.s: tests/EventLoadTestAdvanced.cpp.s
+.PHONY : tests/EventLoadTestAdvanced.s
 
 # target to generate assembly for a file
-tests/EventLoadTest.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTest.cpp.s
-.PHONY : tests/EventLoadTest.cpp.s
+tests/EventLoadTestAdvanced.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/tests/EventLoadTestAdvanced.cpp.s
+.PHONY : tests/EventLoadTestAdvanced.cpp.s
 
 # Help Target
 help:
@@ -549,6 +562,7 @@ help:
 	@echo "... state_storage"
 	@echo "... system_watcher"
 	@echo "... tests"
+	@echo "... thread_pool"
 	@echo "... src/EchoHandler.o"
 	@echo "... src/EchoHandler.i"
 	@echo "... src/EchoHandler.s"
@@ -576,15 +590,15 @@ help:
 	@echo "... src/RedisPublisherHandler.o"
 	@echo "... src/RedisPublisherHandler.i"
 	@echo "... src/RedisPublisherHandler.s"
+	@echo "... src/ThreadPool.o"
+	@echo "... src/ThreadPool.i"
+	@echo "... src/ThreadPool.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... tests/EventDispatcherTest.o"
-	@echo "... tests/EventDispatcherTest.i"
-	@echo "... tests/EventDispatcherTest.s"
-	@echo "... tests/EventLoadTest.o"
-	@echo "... tests/EventLoadTest.i"
-	@echo "... tests/EventLoadTest.s"
+	@echo "... tests/EventLoadTestAdvanced.o"
+	@echo "... tests/EventLoadTestAdvanced.i"
+	@echo "... tests/EventLoadTestAdvanced.s"
 .PHONY : help
 
 

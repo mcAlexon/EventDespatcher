@@ -1,12 +1,18 @@
 #include <iostream>
 #include <filesystem>
+#include <thread>
+#include <chrono>
 #include "event_dispatcher/EventDispatcher.h"
 #include "redis/RedisClient.h"
 #include "logger/EventLogger.h"
+#include "queue/EventQueue.h"
 #include "system_watcher/FileSystemWatcher.h"
+#include "thread_pool/ThreadPool.h"
 
 RedisClient redisClient("host.docker.internal", 6379);
 EventLogger eventLogger("logs/events.log");
+EventQueue eventQueue;
+ThreadPool threadPool(4);
 
 void LogHandler(const Event& e) {
     std::cout << "[LOG] " << e.type << ": " << e.payload << std::endl;
@@ -21,44 +27,71 @@ void EchoHandler(const Event& e) {
 void RedisPublisherHandler(const Event& e);   // объявление
 
 int main() {
-    // Создаём папку watched/ автоматически
     std::filesystem::create_directories("watched");
+    std::filesystem::create_directories("logs");
+    std::filesystem::create_directories("storage");
 
     EventDispatcher dispatcher;
 
-    std::cout << "=== FS-EventHub v0.4 (ЛР2 + ЛР3 + Logger) ===\n";
-    std::cout << "Папка watched/ создана. Создавайте в ней файлы — скоро будем отслеживать в реальном времени.\n\n";
+    std::cout << "=== FS-EventHub v0.5 (ЛР5 — Полная асинхронная обработка) ===\n\n";
 
-    if (!redisClient.connect()) {
-        std::cerr << "Redis не подключился!\n";
-        return 1;
-    }
+    if (!redisClient.connect()) return 1;
 
     redisClient.startSubscriber("fs_events", [&](const Event& e) {
         std::cout << "[RedisListener] Получено из Redis: " << e.type << " | " << e.payload << std::endl;
         eventLogger.logEvent(e, EventStatus::RECEIVED, "Из Redis");
     });
 
-    dispatcher.registerHandler("file_created", LogHandler);
-    dispatcher.registerHandler("file_created", EchoHandler);
-    dispatcher.registerHandler("file_created", RedisPublisherHandler);
+    // Регистрация обработчиков
+    dispatcher.registerHandler("file_created",  LogHandler);
+    dispatcher.registerHandler("file_created",  EchoHandler);
+    dispatcher.registerHandler("file_created",  RedisPublisherHandler);
     dispatcher.registerHandler("file_modified", LogHandler);
-    dispatcher.registerHandler("file_deleted", LogHandler);
+    dispatcher.registerHandler("file_modified", RedisPublisherHandler);
+    dispatcher.registerHandler("file_deleted",  LogHandler);
+    dispatcher.registerHandler("file_deleted",  RedisPublisherHandler);
 
-    std::cout << "Система готова. Логи → logs/events.log\n\n";
+    // Watcher теперь пушит в очередь
+    FileSystemWatcher watcher("watched", dispatcher, eventQueue);
 
-    // Тестовые события
-    FileSystemWatcher watcher("watched", dispatcher);
+    // Consumer → ThreadPool
+    std::thread consumerThread([&]() {
+        std::cout << "[Consumer] Запущен → события идут в ThreadPool\n";
+        while (true) {
+            QueuedEvent qe;
+            if (eventQueue.pop(qe, 300)) {
+                threadPool.submit([qe, &dispatcher]() mutable {
+                    try {
+                        dispatcher.dispatch(qe.event);
+                        eventQueue.markProcessed(qe.event);
+                    } catch (...) {
+                        eventQueue.markFailed(qe.event);
+                    }
+                });
+            }
+        }
+    });
+
+    // Метрики
+    std::thread metricsThread([&]() {
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+            std::cout << "[Metrics] Активных: " << threadPool.activeThreads()
+                      << " | В очереди: " << threadPool.queuedTasks()
+                      << " | Всего обработано: " << threadPool.totalProcessed() << "\n";
+        }
+    });
+
+    std::cout << "✅ Система работает через EventQueue + ThreadPool (4 потока)\n\n";
 
     while (true) {
-    watcher.scan();
-    std::this_thread::sleep_for(std::chrono::seconds(2));
-}
+        watcher.scan();
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+    }
 
-    std::cout << "\nНажмите Enter для завершения...\n";
-    std::cin.get();
-
+    consumerThread.join();
+    metricsThread.join();
+    threadPool.shutdown();
     redisClient.stopSubscriber();
-    std::cout << "Программа завершена.\n";
     return 0;
 }
